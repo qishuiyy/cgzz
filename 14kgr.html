@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🔥11.14🍉合集🎥</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* 核心：一开始页面默认背景为白色且不展示正文，防止闪烁 */
+        body { background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+        
+        /* 默认隐藏主容器，直到 JS 判断通过才展示 */
+        #app-container, .float-buttons { display: none; }
+        
+        .container { max-width: 600px; margin: 0 auto; padding: 12px; padding-bottom: 90px; }
+        .header-title { text-align: center; font-size: 20px; font-weight: bold; color: #1a1a2e; margin: 20px 0; }
+        .pwd-box { background: #fff; border-radius: 16px; padding: 30px 20px; text-align: center; margin-top: 40px; box-shadow: 0 4px 20px rgba(255,71,126,0.1); border: 1px solid rgba(255,71,126,0.2); }
+        .pwd-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 12px; text-align: center; outline: none; }
+        .pwd-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #ff9966, #ff5e62); color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 10px; }
+        .get-pwd-btn { display: block; width: 100%; padding: 10px; background: #f0f2f5; color: #1890ff; border: 1px dashed #1890ff; border-radius: 8px; font-size: 13px; font-weight: bold; text-decoration: none; text-align: center; box-sizing: border-box; }
+        .sub-card { background: #fff; border-radius: 12px; margin-bottom: 12px; overflow: hidden; border: 1px solid #e8ecf0; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .sub-header { padding: 14px 16px; display: flex; align-items: center; cursor: pointer; font-size: 15px; font-weight: 600; color: #1a1a2e; user-select: none; }
+        .sub-header::before { content: "▶"; font-size: 10px; margin-right: 12px; color: #888; transition: transform 0.2s; }
+        .sub-card.active .sub-header::before { transform: rotate(90deg); }
+        .sub-card.active .sub-header { color: #ff477e; background: #fff9fa; }
+        .sub-content { display: none; padding: 0 16px 16px 16px; flex-direction: column; gap: 12px; }
+        .sub-card.active .sub-content { display: flex !important; }
+        .post-img { width: 100%; border-radius: 10px; margin-bottom: 4px; display: block; border: 1px solid #eee; }
+        .post-video { width: 100%; border-radius: 8px; margin-bottom: 4px; background: #000; display: block; }
+        .content-text { font-size: 14px; white-space: pre-wrap; line-height: 1.7; color: #2d3436; padding: 4px 0; }
+        .float-buttons { position: fixed; bottom: 20px; right: 15px; display: none; flex-direction: column; gap: 10px; z-index: 99; }
+        .float-btn { padding: 10px 18px; border-radius: 30px; font-size: 13px; font-weight: bold; color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .btn-group { background: linear-gradient(135deg, #4e73df, #224abe); }
+        .btn-share { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+
+        /* 电脑端建设中提示页（默认加载即显示，JS判断通过后隐藏） */
+        #pc-tip { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f5f7fa; z-index: 999999; display: flex; justify-content: center; align-items: center; }
+        .pc-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center; max-width: 450px; width: 90%; }
+        .pc-icon { font-size: 50px; margin-bottom: 15px; }
+
+        /* 微信端引导提示（默认隐藏，判断是微信时才展示） */
+        #wx-tip { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 999998; display: none; text-align: right; padding: 25px; box-sizing: border-box; }
+        .wx-tip-text { color: #2c3e50; font-size: 18px; font-weight: bold; text-align: center; margin-top: 120px; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <!-- 电脑端拦截提示 -->
+    <div id="pc-tip">
+        <div class="pc-box">
+            <div class="pc-icon">🚧</div>
+            <h2 style="color: #1a1a2e; margin-bottom: 10px; font-size: 22px;">网站还在建设中</h2>
+            <p style="color: #666; font-size: 14px; line-height: 1.6;">为了给您提供更好的浏览体验，本站电脑端正在紧急建设中。<br>请使用手机或移动设备扫描访问。</p>
+        </div>
+    </div>
+
+    <!-- 微信端引导提示 -->
+    <div id="wx-tip">
+        <div style="text-align: right;"><span style="font-size: 45px; color: #ff477e;">👆 ↗</span></div>
+        <div class="wx-tip-text">
+            请点击右上角 <span style="font-size: 26px; color: #ff477e;">···</span><br>
+            选择 <span style="color: #2ecc71; background: #e8f8f5; padding: 2px 8px; border-radius: 4px;">“在浏览器中打开”</span><br>
+            以获得最佳浏览与播放体验
+        </div>
+    </div>
+
+    <div class="container" id="app-container">
+        
+        <h2 class="header-title">🔥11.14🍉合集🎥</h2>
+        
+        <div class="sub-card" id="sub-card-0">
+            <div class="sub-header" onclick="toggleAccordion(0)">群友网恋 狂艹20天 把妹 #聊天记录 #开房 #素材 这腰子铁打的吧！！！</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141530194.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141532F1.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141533207.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141535246.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131415364B.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314153X29.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141539125.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141540L4.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141541925.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141542943.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141543430.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141544155.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131415461N.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314154L12.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314154U34.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131415502M.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141552543.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141553427.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141554K1.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141555436.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131415564X.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314155O33.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314155R94.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314155bY.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141612595.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141613951.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141614K9.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314161B16.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314161O04.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314161b03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141620X7.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131416211A.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141622S5.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141623X7.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141624I9.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141625F1.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131416261X.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314162M93.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314162W33.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131416302P.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141631F0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141632E6.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141633224.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141635A9.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113141636358.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314163MV.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314163S43.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314163S63.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-2611131416392K.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-26111314164L53.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-1">
+            <div class="sub-header" onclick="toggleAccordion(1)">女群友在线教学 满级叫床 周围有人的时候千万别打开！听石更了</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261113/4-261113013T53N.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-2">
+            <div class="sub-header" onclick="toggleAccordion(2)">真魔幻！！儿子和妈妈聊骚，这聊天记录属实逆天！！</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-26111223554O45.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235550V3.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235553Z8.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235642159.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-2611122356441Y.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235645319.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-26111223564c62.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235A3L0.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235A62U.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235F9553.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235G2334.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235GSY.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235H2523.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235H3446.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235H4128.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235HD20.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112235HN01.png" class="post-img" loading="lazy" alt="图片">
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-3">
+            <div class="sub-header" onclick="toggleAccordion(3)">已婚少妇跟老王搞破鞋，老公突然来电话 现场录音太炸裂 一边吃鸡一边回复</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112195135N7.png" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112195143952.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112195144b8.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-261112195144340.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-4">
+            <div class="sub-header" onclick="toggleAccordion(4)">饥饿情侣 电影院后排doi交流感情，全过程被偷拍记录！玩得真刺激！</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161013215.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161014Y8.png" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/4-2611121Z001R1.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-5">
+            <div class="sub-header" onclick="toggleAccordion(5)">火爆至极 #杭州东渡流水席，一场大型男同狂欢派对！#gay#猎奇</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216104E07.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216104BB.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161049554.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161050B6.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161052b6.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161053J4.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161055615.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216105L10.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-6">
+            <div class="sub-header" onclick="toggleAccordion(6)">抖音坐拥450万粉丝，外网最新重磅爆料！真空巨乳幽灵娘惊艳亮相#Ciu7 #巨乳</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161102D0.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-7">
+            <div class="sub-header" onclick="toggleAccordion(7)">逆天 隔壁群友的变态同学 与#病娇上课听炸天PPT #雌堕 #性癖</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216110MZ.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121611061V.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161110558.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161111518.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121611139C.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161115315.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216111C63.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216111N15.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161120148.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161133341.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161123928.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-8">
+            <div class="sub-header" onclick="toggleAccordion(8)">爱看脚的群友系列上帝视脚</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161140158.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161141C1.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121611432V.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161145624.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-9">
+            <div class="sub-header" onclick="toggleAccordion(9)">小情侣接吻上头了，男的鸡吧邦邦硬，直接当街脱裤子玩几把！</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161154560.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161230533.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-10">
+            <div class="sub-header" onclick="toggleAccordion(10)">抖音快手，直播事故！</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161241C8.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-11">
+            <div class="sub-header" onclick="toggleAccordion(11)">群友上班打螺丝无聊 先小忙一会</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121612555H.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-12">
+            <div class="sub-header" onclick="toggleAccordion(12)">工地条件有限，练一会挂挡</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121613032E.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-13">
+            <div class="sub-header" onclick="toggleAccordion(13)">何意为，兄弟们 下次拍好点</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161310L2.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161311439.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-14">
+            <div class="sub-header" onclick="toggleAccordion(14)">群主日常 平淡的一天</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216131T50.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-15">
+            <div class="sub-header" onclick="toggleAccordion(15)">兄弟，我来助你一臂之力！这样飞下来竟然没事？</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161331238.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-16">
+            <div class="sub-header" onclick="toggleAccordion(16)">群友探店日记</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216133Q46.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216133SZ.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161341193.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161342103.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121613452M.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161346258.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161349344.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-17">
+            <div class="sub-header" onclick="toggleAccordion(17)">反重力球 这姿势不错</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161400406.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-18">
+            <div class="sub-header" onclick="toggleAccordion(18)">烧鸡 水费不用钱啊 真浪费</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161421Z2.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-19">
+            <div class="sub-header" onclick="toggleAccordion(19)">真不怕中毒？哪位群友 #舔足 这小费不好赚</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161429591.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-20">
+            <div class="sub-header" onclick="toggleAccordion(20)">哪位无能群友 整天飞机 意淫助眠</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161434C5.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161433418.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216143OI.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216143N58.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-21">
+            <div class="sub-header" onclick="toggleAccordion(21)">这是在干什么？ 还让人好好吃饭吗？</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161443496.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-22">
+            <div class="sub-header" onclick="toggleAccordion(22)">孩子天崩开局 疑似厕所生娃一幕</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161450404.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161449615.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161453425.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161454648.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161455249.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121615004F.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121614592P.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-23">
+            <div class="sub-header" onclick="toggleAccordion(23)">温暖午后 快乐的一天</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161512359.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-24">
+            <div class="sub-header" onclick="toggleAccordion(24)">集美 #群殴 群友爱看</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121615333c.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-25">
+            <div class="sub-header" onclick="toggleAccordion(25)">印度 节日祈福 信徒趴在地上接受牛神的踩踏，真不怕被踩死？</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121616005G.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161555B7.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-26">
+            <div class="sub-header" onclick="toggleAccordion(26)">#红灯区 多来吧 ！男人天堂</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216160R54.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-27">
+            <div class="sub-header" onclick="toggleAccordion(27)">吉隆坡 惊传双刀狂魔袭警事件！ 警员疑遭砍断手掌 最后被击毙</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-2611121616143A.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161622R5.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161619A5.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161626108.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161630242.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161629135.MP4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161635G9.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-28">
+            <div class="sub-header" onclick="toggleAccordion(28)">每日一笑 放松一刻</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161640149.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161640327.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161643I0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161643152.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161645J8.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161646495.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-26111216164XY.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161649248.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161A1433.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161A1402.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161A3560.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161A4a0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161AH36.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161AWH.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161AbZ.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161F11X.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161F2J3.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161F34P.jpg" class="post-img" loading="lazy" alt="图片">
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-29">
+            <div class="sub-header" onclick="toggleAccordion(29)">校园霸凌： 曝光畜生</div>
+            <div class="sub-content">
+                <div class="content-text">(我小时候同样遭受过不同程度的校园霸凌, 由此带来的被同学排挤孤立, 这才是最可怕的。 我决定坚持曝光这些人渣行为, 希望能引起社会的重视, 让打人者得到应有的惩罚！ 还受害者一个公道！ )<br />
+也希望曾经遭受过不幸的人都能走出来...<br />
+不要欺负老实人  当老实人反击的时候  你连还手的机会都没有！<br />
+一群垃圾人渣下地狱吧！</div>
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161G3222.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-30">
+            <div class="sub-header" onclick="toggleAccordion(30)">听哥一句劝：管住下半身，保护好命根！</div>
+            <div class="sub-content">
+                
+                
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161JB02.MP4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-31">
+            <div class="sub-header" onclick="toggleAccordion(31)">粉色私宴🌟</div>
+            <div class="sub-content">
+                
+                <img src="https://image.acg.lol/file/2026/11/13/photo_100_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_1_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_2_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_3_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_4_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_5_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_6_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_7_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_8_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_9_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_10_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_11_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_12_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_14_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_15_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_16_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_17_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_18_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_19_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_20_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_21_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_22_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_23_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_24_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_25_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_26_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_27_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_28_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_29_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_30_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_31_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_32_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_33_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_34_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_35_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_36_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_37_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_38_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_39_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_40_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_41_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_42_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_43_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_44_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_45_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_46_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_47_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_48_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_49_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_50_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_51_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_52_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_53_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_54_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_55_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_56_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_57_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_58_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_59_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_60_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_61_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_62_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_63_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_64_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_65_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_66_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_67_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_68_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_69_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_70_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_71_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_72_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_73_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_74_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_75_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_76_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_77_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_78_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_79_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_80_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_81_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_82_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_83_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_84_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_85_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_86_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_87_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_88_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_89_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_90_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_91_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_92_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_93_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_94_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_95_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_96_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_97_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_98_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_99_2026-11-13_21-08-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_1_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_2_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_3_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_4_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_5_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_6_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_7_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_8_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_9_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_10_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_11_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_12_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://image.acg.lol/file/2026/11/13/photo_13_2026-11-13_21-16-03.jpg" class="post-img" loading="lazy" alt="图片">
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-32">
+            <div class="sub-header" onclick="toggleAccordion(32)">🌟私人定制-希熙🌟</div>
+            <div class="sub-content">
+                <div class="content-text">✅易和谐，速度保存‼️<br />
+解压🐎：666</div>
+                <img src="https://p1.meituan.net/imgupload/3636f92d0d5708a0de24de0de425441326905.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://p1.meituan.net/imgupload/6d0a93c07e37424c6a72a1eeab172ebc24678.jpg" class="post-img" loading="lazy" alt="图片">
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-33">
+            <div class="sub-header" onclick="toggleAccordion(33)">🔥群友福利，最牛逼的交友盲盒！（全网更新升级）</div>
+            <div class="sub-content">
+                <div class="content-text">全网超火恋爱盲盒已更新<br />
+新加入超多-少萝.御姐</div>
+                <img src="https://m.mingyihui.net/upload/conversation/20261109/2200261836.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2249139066.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2249236615.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2249371513.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2249453574.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2249532442.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2250123551.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2250233750.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2250303207.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2250378546.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2250461416.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2251047567.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2251151196.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20260926/2251239496.jpeg" class="post-img" loading="lazy" alt="图片"><img src="https://m.mingyihui.net/upload/conversation/20261109/2200261836.jpeg" class="post-img" loading="lazy" alt="图片">
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-34">
+            <div class="sub-header" onclick="toggleAccordion(34)">艺术鉴赏</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161K4W7.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161K5619.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161KH24.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161KU63.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161KcI.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161P0G1.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161P2F8.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161P3D0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161P5N3.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161PA31.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161PU15.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Pb29.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Q02Z.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Q23B.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Q32M.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Q5O6.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Q61N.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161QK41.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161QYV.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Q94Z.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161R15X.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161R42W.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161R5W6.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161RHW.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161RIY.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161R9226.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161S0A4.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161S2Q9.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161S3617.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161S5I2.jpg" class="post-img" loading="lazy" alt="图片">
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-35">
+            <div class="sub-header" onclick="toggleAccordion(35)">腿控福利</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161T5918.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161TMc.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161U03b.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161U1309.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161U3201.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161U4132.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161U5114.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161UCV.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161UQ17.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161U9526.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Z0U7.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Z14S.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Z4L7.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161Z43U.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161ZC62.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161ZJZ.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161ZX25.jpg" class="post-img" loading="lazy" alt="图片">
+                <video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161T0524.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161T3227.mp4" class="post-video" controls playsinline preload="none"></video><video src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261112/1-261112161T4196.mp4" class="post-video" controls playsinline preload="none"></video>
+            </div>
+        </div>
+        
+    </div>
+    <div class="float-buttons" id="float-btns">
+        <a href="https://mp.weixin.qq.com/s/EwMupnObyvf00M7Q81jUww" class="float-btn btn-group" target="_blank">💡 没进群的点此进群</a>
+        <button class="float-btn btn-share" onclick="alert('请点击右上角分享给好友')">转发</button>
+    </div>
+    <script>
+        function isPC() {
+            const userAgentInfo = navigator.userAgent;
+            const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+            let flag = true;
+            for (let v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        function isWeiXin() {
+            var ua = navigator.userAgent.toLowerCase();
+            return ua.indexOf("micromessenger") !== -1;
+        }
+
+        // 页面刚加载完立刻执行判断，彻底消灭闪烁
+        (function() {
+            if (isPC()) {
+                // PC 端保持显示“建设中”
+                document.getElementById("pc-tip").style.display = "flex";
+            } else if (isWeiXin()) {
+                // 微信端隐藏 PC 提示，显示微信引导
+                document.getElementById("pc-tip").style.display = "none";
+                document.getElementById("wx-tip").style.display = "block";
+            } else {
+                // 正常手机浏览器：隐藏所有提示，显示正文与悬浮按钮
+                document.getElementById("pc-tip").style.display = "none";
+                document.getElementById("wx-tip").style.display = "none";
+                document.getElementById("app-container").style.display = "block";
+                document.getElementById("float-btns").style.display = "flex";
+                document.body.style.backgroundColor = "#fff2f5";
+            }
+        })();
+
+        const correctPwd = "";
+        function checkPassword() {
+            const val = document.getElementById("user-pwd").value;
+            if (val === correctPwd) {
+                document.getElementById("lock-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            } else {
+                document.getElementById("err-tip").style.display = "block";
+            }
+        }
+        function toggleAccordion(idx) {
+            const card = document.getElementById(`sub-card-${idx}`);
+            card.classList.toggle("active");
+        }
+    </script>
+</body>
+</html>
