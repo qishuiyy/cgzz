@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🔥11.19🍉合集🎥</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #333; }
+        #app-container, .float-buttons { display: none; }
+        .container { max-width: 600px; margin: 0 auto; padding: 12px; padding-bottom: 140px; }
+        .header-title { text-align: center; font-size: 20px; font-weight: bold; color: #1a1a2e; margin: 20px 0; }
+        .pwd-box { background: #fff; border-radius: 16px; padding: 30px 20px; text-align: center; margin-top: 40px; box-shadow: 0 4px 20px rgba(255,71,126,0.1); border: 1px solid rgba(255,71,126,0.2); }
+        .pwd-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; margin-bottom: 12px; text-align: center; outline: none; }
+        .pwd-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #ff9966, #ff5e62); color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; margin-bottom: 10px; }
+        .get-pwd-btn { display: block; width: 100%; padding: 10px; background: #f0f2f5; color: #1890ff; border: 1px dashed #1890ff; border-radius: 8px; font-size: 13px; font-weight: bold; text-decoration: none; text-align: center; box-sizing: border-box; }
+        .sub-card { background: #fff; border-radius: 12px; margin-bottom: 12px; overflow: hidden; border: 1px solid #e8ecf0; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .sub-header { padding: 14px 16px; display: flex; align-items: center; cursor: pointer; font-size: 15px; font-weight: 600; color: #1a1a2e; user-select: none; }
+        .sub-header::before { content: "▶"; font-size: 10px; margin-right: 12px; color: #888; transition: transform 0.2s; }
+        .sub-card.active .sub-header::before { transform: rotate(90deg); }
+        .sub-card.active .sub-header { color: #ff477e; background: #fff9fa; }
+        .sub-content { display: none; padding: 0 16px 16px 16px; flex-direction: column; gap: 12px; }
+        .sub-card.active .sub-content { display: flex !important; }
+        .post-img { width: 100%; border-radius: 10px; margin-bottom: 4px; display: block; border: 1px solid #eee; }
+        .post-video { width: 100%; border-radius: 8px; margin-bottom: 4px; background: #000; display: block; }
+        .content-text { font-size: 14px; white-space: pre-wrap; line-height: 1.7; color: #2d3436; padding: 4px 0; }
+        .external-link-wrapper { margin-top: 4px; }
+        .custom-link-card { background: #fff; border: 1px solid #e1e8ed; border-radius: 10px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: #333; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+        .link-icon-box { background: linear-gradient(135deg, #4e73df, #224abe); width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px; flex-shrink: 0; }
+        .link-info { flex: 1; min-width: 0; }
+        .link-title { font-size: 15px; font-weight: 600; color: #1a1a2e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+        .link-meta { font-size: 12px; color: #888; }
+        .link-action-btn { background: #007bff; color: #fff; font-size: 13px; font-weight: 600; padding: 6px 16px; border-radius: 20px; flex-shrink: 0; }
+        .bottom-banner-container { text-align: center; margin: 20px auto; max-width: 100%; }
+        .bottom-banner-img { max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 0 auto; }
+        .float-buttons { position: fixed; bottom: 20px; right: 15px; display: none; flex-direction: column; gap: 10px; z-index: 99; align-items: flex-end; }
+        .float-btn { padding: 10px 16px; border-radius: 30px; font-size: 13px; font-weight: bold; color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-pause-video { background: linear-gradient(135deg, #ff9966, #ff5e62); }
+        .btn-collapse-all { background: linear-gradient(135deg, #8e44ad, #6c3483); }
+        .btn-group { background: linear-gradient(135deg, #4e73df, #224abe); }
+        .btn-share { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .mini-toast { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.82); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 13px; z-index: 100000; }
+        #pc-tip { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #f5f7fa; z-index: 999999; display: flex; justify-content: center; align-items: center; }
+        .pc-box { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center; max-width: 450px; width: 90%; }
+        .pc-icon { font-size: 50px; margin-bottom: 15px; }
+        #wx-tip { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 999998; display: none; text-align: right; padding: 25px; box-sizing: border-box; }
+        .wx-tip-text { color: #2c3e50; font-size: 18px; font-weight: bold; text-align: center; margin-top: 120px; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <div id="pc-tip">
+        <div class="pc-box">
+            <div class="pc-icon">🚧</div>
+            <h2 style="color: #1a1a2e; margin-bottom: 10px; font-size: 22px;">网站还在建设中</h2>
+            <p style="color: #666; font-size: 14px; line-height: 1.6;">为了给您提供更好的浏览体验，本站电脑端正在紧急建设中。<br>请使用手机或移动设备扫描访问。</p>
+        </div>
+    </div>
+
+    <div id="wx-tip">
+        <div style="text-align: right;"><span style="font-size: 45px; color: #ff477e;">👆 ↗</span></div>
+        <div class="wx-tip-text">
+            请点击右上角 <span style="font-size: 26px; color: #ff477e;">···</span><br>
+            选择 <span style="color: #2ecc71; background: #e8f8f5; padding: 2px 8px; border-radius: 4px;">“在浏览器中打开”</span><br>
+            以获得最佳浏览与播放体验
+        </div>
+    </div>
+
+    <div class="container" id="app-container">
+        
+        <h2 class="header-title">🔥11.19🍉合集🎥</h2>
+        
+        <div class="sub-card" id="sub-card-0">
+            <div class="sub-header" onclick="toggleAccordion(0)">登山媛 社交日常 接吻摸一下乃子很正常！</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://liblibai-online.liblib.cloud/img/e755d06390a8448b80a09e9c6afa0721/028414f7c522543322ecff6afd2f12c31a34b378cb2a9bd1b19a510ab6f3edb4.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-1">
+            <div class="sub-header" onclick="toggleAccordion(1)">这群u的投稿🐮🍺啊</div>
+            <div class="sub-content">
+                <div class="content-text">把前汝友的视屏给整出来了😂 太渣男了吧</div>
+                <img src="https://p0.meituan.net/imgupload/e2a9eacb79faf62b2e857e3c136ed3bc178406.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://p0.meituan.net/imgupload/b207cd6bc99315f43a4c1a017b986be281653.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://liblibai-online.liblib.cloud/img/e755d06390a8448b80a09e9c6afa0721/895238e576198e11533f619d1a1de17643c89dbadba89225c467280487ababb5.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-2">
+            <div class="sub-header" onclick="toggleAccordion(2)">小情侣监控底下doi 干完坏事还嗦手指！</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G205502O.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G20634400.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G2063B44.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G2063I64.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://liblibai-online.liblib.cloud/img/e755d06390a8448b80a09e9c6afa0721/2f0923eb56ab31748eafbcb9781f37efaf1126b8f8ae796f5615ac8a8ee7474c.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-3">
+            <div class="sub-header" onclick="toggleAccordion(3)">论服务行业还得是小日子的樱花啤酒妹 陪完酒居然还有特殊服务</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261116/4-26111623403O52.png" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261116/4-26111623410bW.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://liblibai-online.liblib.cloud/img/e755d06390a8448b80a09e9c6afa0721/d1ca548904ce29b132f6376b1bc6fdcdb2fadb03b9f78d4174fbc22b9033b7df.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-4">
+            <div class="sub-header" onclick="toggleAccordion(4)">传说中的绿帽侠？特别爱好偷窥女友被别人狠狠玩弄,这也太变态了！</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G6034OT.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G6034V91.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60349417.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60350N4.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G603525L.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60353J5.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60354938.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60355948.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60356338.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G6035N55.png" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G6040S28.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60409230.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111G60410M6.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-5">
+            <div class="sub-header" onclick="toggleAccordion(5)">越南轮伦哥哥把弟弟的老婆带回老家，弟弟就躺着抱着哥哥的老婆睡觉。</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://liblibai-online.liblib.cloud/web/model/e755d06390a8448b80a09e9c6afa0721/334be37711bcdf620131b5ac13d1066e1354af949d9a09797495965fb8eb7820.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-6">
+            <div class="sub-header" onclick="toggleAccordion(6)">美女教你怎么看人识鸡！_这烧啤吃屌还吃出了经验#猎奇</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60242529.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-7">
+            <div class="sub-header" onclick="toggleAccordion(7)">皮影戏 现场直播 群友投稿，</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60251Q0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60250534.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60252932.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60253307.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60256326.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-8">
+            <div class="sub-header" onclick="toggleAccordion(8)">你老婆 日常穿搭 评多少分</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6030b40.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60310615.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60313508.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G603149C.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G603192E.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60321208.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60322494.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-9">
+            <div class="sub-header" onclick="toggleAccordion(9)">这是啥医院？看着怎么有点不正经</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60301304.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60302403.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-10">
+            <div class="sub-header" onclick="toggleAccordion(10)">陕西女骑#小鬼大王被真实了吗？ #陕西女骑车祸</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60329442.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G603303Z.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G603325L.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G603334P.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60335Y1.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6033A93.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6033cW.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60341628.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-11">
+            <div class="sub-header" onclick="toggleAccordion(11)">揭阳 #精神小伙 聚众打架斗殴 这架势真够猛</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60406207.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60414151.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60431256.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60412623.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60416362.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-12">
+            <div class="sub-header" onclick="toggleAccordion(12)">抖音快手，直播事故！</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6043WP.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6043b19.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60441251.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-13">
+            <div class="sub-header" onclick="toggleAccordion(13)">这玩意还能用吗？</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6044O95.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-14">
+            <div class="sub-header" onclick="toggleAccordion(14)">解锁电动车新姿势！帮男朋友暖一下唧唧</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60453C4.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-15">
+            <div class="sub-header" onclick="toggleAccordion(15)">出轨被抓现场骗故事再打鬼 说得自己都要信了</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60511O8.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-16">
+            <div class="sub-header" onclick="toggleAccordion(16)">这种人就欠揍，人来了就看看逼，看完就想走</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60522G9.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-17">
+            <div class="sub-header" onclick="toggleAccordion(17)">两只小兔子 好可爱 蹦蹦跳跳</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6052V96.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-18">
+            <div class="sub-header" onclick="toggleAccordion(18)">准备战斗 ！晚安 兄弟们 群主小忙一会</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60533936.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G605354W.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-19">
+            <div class="sub-header" onclick="toggleAccordion(19)">群友探店日记</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6054W27.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G605515V.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60552C0.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60549139.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G606013a.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6055HR.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60603414.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60606362.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-20">
+            <div class="sub-header" onclick="toggleAccordion(20)">穿成这样跑外卖 打赏会多点？</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60619409.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-21">
+            <div class="sub-header" onclick="toggleAccordion(21)">兄弟怎么蔫了，这大胸不香吗？</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6062E36.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60624C9.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-22">
+            <div class="sub-header" onclick="toggleAccordion(22)">江苏扬州咱也不敢问集美什么情况</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60635b5.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6063G23.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-23">
+            <div class="sub-header" onclick="toggleAccordion(23)">群友投稿 苏J•7XA93，你车震被拍啦</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G606422N.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G606455G.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60643B4.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-24">
+            <div class="sub-header" onclick="toggleAccordion(24)">真逆天 小仙女在下面塞入八个跳弹 β内空间这么大的吗？</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111GRFST.png" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111GRG12U.png" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/4-26111GRGJ22.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-25">
+            <div class="sub-header" onclick="toggleAccordion(25)">老师好 今天上什么课程</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60A1917.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-26">
+            <div class="sub-header" onclick="toggleAccordion(26)">纽约法拉盛，#美国 #精神小伙</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60F14c.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60GL58.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-27">
+            <div class="sub-header" onclick="toggleAccordion(27)">食人鱼 威力测试</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60AK37.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-28">
+            <div class="sub-header" onclick="toggleAccordion(28)">棒子挤电梯 小日子挤地铁#G潮</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60I4138.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-29">
+            <div class="sub-header" onclick="toggleAccordion(29)">每日一笑 放松一刻</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60J1954.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60J0157.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60J3627.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60J5S0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60J6430.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60JN04.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60J9401.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60K1110.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60K1T1.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60K3248.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60K4423.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60K5333.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60K6235.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60KUa.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60Kc51.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60P0216.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60P1G7.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60P3930.jpg" class="post-img" loading="lazy" alt="图片">
+                
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-30">
+            <div class="sub-header" onclick="toggleAccordion(30)">校园霸凌： 曝光畜生</div>
+            <div class="sub-content">
+                
+                <img src="(我小时候同样遭受过不同程度的校园霸凌" class="post-img" loading="lazy" alt="图片"><img src="由此带来的被同学排挤孤立" class="post-img" loading="lazy" alt="图片"><img src="这才是最可怕的。 我决定坚持曝光这些人渣行为" class="post-img" loading="lazy" alt="图片"><img src="希望能引起社会的重视" class="post-img" loading="lazy" alt="图片"><img src="让打人者得到应有的惩罚！ 还受害者一个公道！ )" class="post-img" loading="lazy" alt="图片"><img src="也希望曾经遭受过不幸的人都能走出来..." class="post-img" loading="lazy" alt="图片"><img src="不要欺负老实人  当老实人反击的时候  你连还手的机会都没有！" class="post-img" loading="lazy" alt="图片"><img src="一群垃圾人渣下地狱吧！" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60P9160.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-31">
+            <div class="sub-header" onclick="toggleAccordion(31)">听哥一句劝：管住下半身，保护好命根！</div>
+            <div class="sub-content">
+                
+                
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60QOS.mp4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-32">
+            <div class="sub-header" onclick="toggleAccordion(32)">艺术鉴赏</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60R3146.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60R3533.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60R5122.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60RD15.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60RKA.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60R92K.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60S14a.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60S25O.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60S3535.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60S5241.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60SKM.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60SU16.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60T0127.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60T1592.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60T25a.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60T3339.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60T5516.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60TC12.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60TXE.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60TW50.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U0G9.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U1213.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U21T.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U3941.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U5602.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U62D.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60UNQ.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60U9229.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60Z0U1.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60Z13E.jpg" class="post-img" loading="lazy" alt="图片">
+                
+                
+            </div>
+        </div>
+        <div class="sub-card" id="sub-card-33">
+            <div class="sub-header" onclick="toggleAccordion(33)">腿控福利</div>
+            <div class="sub-content">
+                
+                <img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60911332.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60913237.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G609144A.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60915954.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G609163J.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6091V30.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6091Q21.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60920925.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60922O0.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G609233H.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G609241J.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G609255S.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6092G02.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6092R44.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G6092b61.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60931S9.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60932325.jpg" class="post-img" loading="lazy" alt="图片"><img src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60933D0.jpg" class="post-img" loading="lazy" alt="图片">
+                <video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60Z63J.mp4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60ZV08.MP4"/>您的浏览器不支持视频播放标签。</video><video controls playsinline preload="metadata" crossorigin="anonymous" class="post-video"><source src="https://less-fd-cdn.kk2kr.com/uploads/allimg/20261117/1-26111G60910B3.MP4"/>您的浏览器不支持视频播放标签。</video>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <div class="float-buttons" id="float-btns">
+        <button type="button" class="float-btn btn-pause-video" onclick="pauseAllVideos()">⏸ 暂停所有视频</button>
+        <button type="button" class="float-btn btn-collapse-all" onclick="collapseAllCards()">🔼 收缩所有列表</button>
+        <a href="https://mp.weixin.qq.com/s/EwMupnObyvf00M7Q81jUww" class="float-btn btn-group" target="_blank">💡 没进群的点此进群</a>
+        <button type="button" class="float-btn btn-share" onclick="alert('请点击右上角分享给好友')">转发</button>
+    </div>
+
+    <div id="opToast" class="mini-toast"></div>
+
+    <script>
+        function isPC() {
+            const userAgentInfo = navigator.userAgent;
+            const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+            let flag = true;
+            for (let v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        function isWeiXin() {
+            var ua = navigator.userAgent.toLowerCase();
+            return ua.indexOf("micromessenger") !== -1;
+        }
+
+        (function() {
+            if (isPC()) {
+                document.getElementById("pc-tip").style.display = "flex";
+            } else if (isWeiXin()) {
+                document.getElementById("pc-tip").style.display = "none";
+                document.getElementById("wx-tip").style.display = "block";
+            } else {
+                document.getElementById("pc-tip").style.display = "none";
+                document.getElementById("wx-tip").style.display = "none";
+                document.getElementById("app-container").style.display = "block";
+                document.getElementById("float-btns").style.display = "flex";
+                document.body.style.backgroundColor = "#fff2f5";
+            }
+        })();
+
+        const correctPwd = "";
+        function checkPassword() {
+            const val = document.getElementById("user-pwd").value;
+            if (val === correctPwd) {
+                document.getElementById("lock-screen").style.display = "none";
+                document.getElementById("main-content").style.display = "block";
+            } else {
+                document.getElementById("err-tip").style.display = "block";
+            }
+        }
+
+        function toggleAccordion(idx) {
+            const card = document.getElementById(`sub-card-${idx}`);
+            if (!card) return;
+            const isOpening = !card.classList.contains("active");
+            card.classList.toggle("active");
+            if (!isOpening) {
+                card.querySelectorAll("video").forEach(v => {
+                    try { v.pause(); } catch(e) {}
+                });
+            }
+        }
+
+        function showOpToast(msg) {
+            const toast = document.getElementById("opToast");
+            if (!toast) return;
+            toast.textContent = msg;
+            toast.style.display = "block";
+            clearTimeout(window.__opToastTimer);
+            window.__opToastTimer = setTimeout(() => {
+                toast.style.display = "none";
+            }, 1500);
+        }
+
+        function pauseAllVideos() {
+            let pausedCount = 0;
+            document.querySelectorAll("video").forEach(video => {
+                if (!video.paused || video.currentTime > 0) {
+                    pausedCount++;
+                }
+                try {
+                    video.pause();
+                } catch(e) {}
+            });
+            try {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else if (document.webkitFullscreenElement) {
+                    document.webkitExitFullscreen();
+                }
+            } catch(e) {}
+            showOpToast(pausedCount > 0 ? `已暂停 ${pausedCount} 个视频` : "所有视频已暂停");
+        }
+
+        function collapseAllCards() {
+            const activeCards = document.querySelectorAll(".sub-card.active");
+            const count = activeCards.length;
+            activeCards.forEach(card => {
+                card.classList.remove("active");
+                card.querySelectorAll("video").forEach(v => {
+                    try { v.pause(); } catch(e) {}
+                });
+            });
+            showOpToast(count > 0 ? `已收缩 ${count} 个列表` : "当前没有展开的列表");
+        }
+    </script>
+</body>
+</html>
